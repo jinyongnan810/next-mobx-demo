@@ -5,8 +5,10 @@ import { useStore } from "src/store";
 const Home: FC = () => {
   return (
     <main>
+      <Title />
       <Form />
       <Transactions />
+      <Blocks />
     </main>
   );
 };
@@ -28,6 +30,11 @@ const Form: FC = () => {
   );
 };
 
+const Title: FC = observer(() => {
+  const store = useStore();
+  return <h1>{store.numberOfBlocks} Blocks</h1>;
+});
+
 //wrap observer to the component that need to be rerendered when the state changes
 // re-render will only be taken when the related state is changed
 const Transactions: FC = observer(() => {
@@ -43,6 +50,20 @@ const Transactions: FC = observer(() => {
     </div>
   ) : (
     <div>No Transactions</div>
+  );
+});
+
+const Blocks: FC = observer(() => {
+  const store = useStore();
+  return (
+    <ul>
+      {[...store.blocks].reverse().map((block) => (
+        <li key={block.hash}>
+          <h3>{block.hash}</h3>
+          <pre>{JSON.stringify(block.transactions, null, 2)}</pre>
+        </li>
+      ))}
+    </ul>
   );
 });
 
