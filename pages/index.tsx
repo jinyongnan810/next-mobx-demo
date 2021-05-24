@@ -32,7 +32,11 @@ const Form: FC = () => {
 
 const Title: FC = observer(() => {
   const store = useStore();
-  return <h1>{store.numberOfBlocks} Blocks</h1>;
+  return (
+    <h1>
+      {store.numberOfBlocks} Blocks ({store.valid ? "Valid" : "Invalid"})
+    </h1>
+  );
 });
 
 //wrap observer to the component that need to be rerendered when the state changes

@@ -15,6 +15,15 @@ class BlockChainStore {
   get numberOfBlocks() {
     return this.blocks.length;
   }
+  get valid() {
+    return this.blocks.every((block, index) => {
+      const pre = this.blocks[index - 1] ?? { hash: "" };
+      const hash = sha256(
+        `${pre.hash}${JSON.stringify(block.transactions)}`
+      ).toString();
+      return hash === block.hash;
+    });
+  }
   addTransaction(message: string) {
     this.transactions.push(message);
   }
